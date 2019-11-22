@@ -80,7 +80,6 @@ public class RestaurantKafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    @Bean
     public Map<String, Object> commonKafkaConsumerConfig(){
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
@@ -93,36 +92,32 @@ public class RestaurantKafkaConfig {
     }
 
     @Bean
-    @DependsOn("commonKafkaConsumerConfig")
-    public ConsumerFactory<Long, Object> restaurantCommandConsumerFactory(@Qualifier("commonKafkaConsumerConfig") Map<String, Object> props) {
-        Map<String, Object> clonedMap = new HashMap<>(props);
+    public ConsumerFactory<Long, Object> restaurantCommandConsumerFactory() {
+        Map<String, Object> clonedMap = new HashMap<>(commonKafkaConsumerConfig());
         clonedMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         clonedMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, RestaurantCommandDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(clonedMap);
     }
 
     @Bean
-    @DependsOn("commonKafkaConsumerConfig")
-    public ConsumerFactory<Long, Object> restaurantEventConsumerFactory(@Qualifier("commonKafkaConsumerConfig") Map<String, Object> props) {
-        Map<String, Object> clonedMap = new HashMap<>(props);
+    public ConsumerFactory<Long, Object> restaurantEventConsumerFactory() {
+        Map<String, Object> clonedMap = new HashMap<>(commonKafkaConsumerConfig());
         clonedMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         clonedMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, RestaurantEventDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(clonedMap);
     }
 
     @Bean
-    @DependsOn("commonKafkaConsumerConfig")
-    public ConsumerFactory<Long, Object> deliveryEventConsumerFactory(@Qualifier("commonKafkaConsumerConfig") Map<String, Object> props) {
-        Map<String, Object> clonedMap = new HashMap<>(props);
+    public ConsumerFactory<Long, Object> deliveryEventConsumerFactory() {
+        Map<String, Object> clonedMap = new HashMap<>(commonKafkaConsumerConfig());
         clonedMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         clonedMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, DeliveryEventDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(clonedMap);
     }
 
     @Bean
-    @DependsOn("commonKafkaConsumerConfig")
-    public ConsumerFactory<Long, Object> paymentEventConsumerFactory(@Qualifier("commonKafkaConsumerConfig") Map<String, Object> props) {
-        Map<String, Object> clonedMap = new HashMap<>(props);
+    public ConsumerFactory<Long, Object> paymentEventConsumerFactory() {
+        Map<String, Object> clonedMap = new HashMap<>(commonKafkaConsumerConfig());
         clonedMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         clonedMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PaymentEventDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(clonedMap);
@@ -131,7 +126,7 @@ public class RestaurantKafkaConfig {
 
     @Bean
     @DependsOn({"paymentEventConsumerFactory"})
-    public ConcurrentKafkaListenerContainerFactory<Long, Object> kafkaPaymentCommandListenerContainerFactory(@Qualifier("paymentEventConsumerFactory") ConsumerFactory<Long, Object> consumerFactory) {
+    public ConcurrentKafkaListenerContainerFactory<Long, Object> kafkaPaymentEventListenerContainerFactory(@Qualifier("paymentEventConsumerFactory") ConsumerFactory<Long, Object> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<Long, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         factory.setConcurrency(1);

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 import restaurant.command.publisher.CommandProducer;
 import restaurant.entities.Customer;
 import restaurant.respository.CustomerRepository;
@@ -18,6 +19,7 @@ import restaurant.util.RestaurantUtil;
 
 import javax.transaction.Transactional;
 
+@Component
 public class CreateCustomerCommandHandler implements IRestaurantCommandHandler {
     private static final Logger logger = LoggerFactory.getLogger(CreateCustomerCommandHandler.class);
 

@@ -7,6 +7,7 @@ import core.commands.restaurant.IRestaurantCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import restaurant.command.publisher.CommandProducer;
 import restaurant.entities.*;
 import restaurant.respository.CustomerRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Component
 public class CreateOrderCommandHandler implements IRestaurantCommandHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CreateOrderCommandHandler.class);
