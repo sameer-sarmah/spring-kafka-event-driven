@@ -103,6 +103,7 @@ public class CreateOrderCommandHandler implements IRestaurantCommandHandler {
                 transferMoneyCommand.setTo(createOrderCommand.getToAccountId());
                 transferMoneyCommand.setFrom(createOrderCommand.getFromAccountId());
                 transferMoneyCommand.setOrderId(orderPersisted.getId());
+                commandProducer.publishTransferMoneyCommand(transferMoneyCommand);
                 logger.info("Order persisted with status ORDER_CREATED for order id: "+orderPersisted.getId());
                 logger.info("TransferMoneyCommand is pusblished for order id: "+orderPersisted.getId());
             }

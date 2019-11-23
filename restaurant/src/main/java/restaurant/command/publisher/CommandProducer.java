@@ -42,16 +42,6 @@ public class CommandProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandProducer.class);
 
-    public void publishTransferMoneyCommand(long from,long to,BigDecimal amount){
-        TransferMoneyCommand transferMoneyCommand = new TransferMoneyCommand();
-        transferMoneyCommand.setFrom(from);
-        transferMoneyCommand.setTo(to);
-        transferMoneyCommand.setAmount(amount);
-        kafkaTemplate.send(paymentCommandTopic, transferMoneyCommand);
-        kafkaTemplate.flush();
-        logger.info("TransferMoneyCommand is published " );
-    }
-
     public void publishPickupOrderCommand(long orderId,long customerId,long restaurantId) {
         PickupOrderCommand pickupOrderCommand = new PickupOrderCommand();
         Optional<Order> optionalOrder= orderRepository.findById(orderId);
@@ -73,6 +63,11 @@ public class CommandProducer {
 
     public void publishCreateOrderCommand(CreateOrderCommand createOrderCommand){
         kafkaTemplate.send(restaurantCommandTopic, createOrderCommand);
+        kafkaTemplate.flush();
+    }
+
+    public void publishTransferMoneyCommand(TransferMoneyCommand transferMoneyCommand){
+        kafkaTemplate.send(paymentCommandTopic, transferMoneyCommand);
         kafkaTemplate.flush();
     }
 }
