@@ -7,6 +7,7 @@ import core.models.OrderItem;
 import core.models.Recipe;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import restaurant.command.publisher.CommandProducer;
 import restaurant.config.RestaurantKafkaConfig;
 import restaurant.config.RestaurantSQLConfig;
@@ -29,6 +30,12 @@ public class RestaurantApp {
 
         //customerRepository.saveAndFlush(createCustomer());
         //restaurantRepository.saveAndFlush(createRestaurant());
+
+        //PopulateOrder populateOrder = ctx.getBean(PopulateOrder.class);
+        //populateOrder.populateOrder(buildCreateOrderCommand());
+        //PopulateRecipe populateRecipe = ctx.getBean(PopulateRecipe.class);
+        //populateRecipe.populateRecipe();
+
         CommandProducer commandProducer = ctx.getBean(CommandProducer.class);
         commandProducer.publishCreateOrderCommand(buildCreateOrderCommand());
 
@@ -72,6 +79,9 @@ public class RestaurantApp {
         recipe.setUnitPrice(50);
         recipe.setDescription("Grilled chicked");
         recipe.setName("Grilled chicked");
+        recipe.setRecipeId(3L);
+        recipe.setRestaurantId(1L);
+        recipe.setUnitPrice(50);
         OrderItem orderItem = new OrderItem();
         orderItem.setQuantity(1);
         orderItem.setRecipe(recipe);

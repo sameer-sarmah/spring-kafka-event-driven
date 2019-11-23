@@ -90,6 +90,7 @@ public class RestaurantUtil {
         entity.setOrder(orderEntity);
         entity.setQuantity(orderItem.getQuantity());
         entity.setRecipe(convertRecipeModelToRecipeEntity(orderItem.getRecipe()));
+        entity.setPrice(orderItem.getRecipe().getUnitPrice());
         return entity;
     }
 

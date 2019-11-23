@@ -25,8 +25,7 @@ public class Order {
 	private Restaurant restaurant;
 
 	@OneToMany(mappedBy = "order",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true)
+			cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	
 	@Embedded

@@ -14,9 +14,14 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long restaurantId;
+
+	@ManyToOne
+	@JoinColumn (name="restaurant_id")
+	private Restaurant restaurant;
+
 	@Column(name="recipe_name")
 	private String name;
+
 	private String description;
 
 	@Column(name="unit_price")

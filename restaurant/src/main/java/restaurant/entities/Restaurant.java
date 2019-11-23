@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,4 +21,7 @@ public class Restaurant {
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
+    List<Recipe> recipes;
 }
