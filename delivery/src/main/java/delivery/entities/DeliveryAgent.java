@@ -2,7 +2,6 @@ package delivery.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.*;
 
